@@ -1,6 +1,8 @@
 include $(THEOS)/makefiles/common.mk
 
 BUNDLE_NAME = SafariPlusPrefs
+# Match MobileSafari when compiling shared private-interface declarations.
+SafariPlusPrefs_USE_MODULES = 0
 SafariPlusPrefs_CFLAGS = -fobjc-arc -I$(INCLUDES) -include ../Prefix.pch -D PREFERENCES=1 -Wno-unguarded-availability-new -Wno-deprecated-declarations
 SafariPlusPrefs_FILES = ../MobileSafari/Classes/SPFileManager.mm ../MobileSafari/Classes/SPFileBrowserTableViewController.mm ../MobileSafari/Classes/SPFileBrowserNavigationController.mm ../MobileSafari/Classes/SPCellIconLabelView.mm ../MobileSafari/Classes/SPFileTableViewCell.mm ../MobileSafari/Classes/SPLocalizationManager.mm
 SafariPlusPrefs_FILES += $(wildcard *.mm ../Shared/*.mm)
