@@ -119,7 +119,7 @@
 		}
 		else
 		{
-			tabDocument = cSelf.UIDelegate;
+			tabDocument = (TabDocument*)cSelf.UIDelegate;
 		}
 
 		BrowserController* browserController = browserControllerForTabDocument(tabDocument);
