@@ -156,7 +156,10 @@
 	return;
 }
 
+%end
+
 %group iOS13_to_13_7
+%hook AVPlaybackControlsView
 
 - (void)_updatePlaybackControlsContainerVisibility:(/*^block*/id)arg1
 {
@@ -166,7 +169,10 @@
 
 %end
 
+%end
+
 %group iOS14Up
+%hook AVPlaybackControlsView
 
 - (void)_updatePlaybackControlsContainerVisibilityAnimated:(BOOL)animated additionalActions:(/*^block*/id)arg2
 {
@@ -176,7 +182,10 @@
 
 %end
 
+%end
+
 %group iOS13Up
+%hook AVPlaybackControlsView
 
 - (instancetype)initWithFrame:(CGRect)arg1 styleSheet:(id)arg2
 {
@@ -189,7 +198,10 @@
 
 %end
 
+%end
+
 %group iOS12_to_12_4_9
+%hook AVPlaybackControlsView
 
 - (instancetype)initWithFrame:(CGRect)arg1 styleSheet:(id)arg2 captureView:(id)arg3	
 {
@@ -202,7 +214,10 @@
 
 %end
 
+%end
+
 %group iOS11_3_to_11_4_1
+%hook AVPlaybackControlsView
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -215,7 +230,10 @@
 
 %end
 
+%end
+
 %group iOS11_0_to_11_2_6
+%hook AVPlaybackControlsView
 
 - (instancetype)init
 {
