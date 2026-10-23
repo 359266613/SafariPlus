@@ -91,6 +91,20 @@ jobs:
         brew install ldid dpkg xz
         echo "$(brew --prefix)/bin" >> "$GITHUB_PATH"
 
+    - name: Checkout XPC headers
+      uses: actions/checkout@v4
+      with:
+        repository: theos/templates
+        ref: 7d98646871281e5b71e280e8f80d3fc27b69aeef
+        path: build-dependencies/xpc-headers
+        sparse-checkout: ios/xpc_service/headers
+
+    - name: Install XPC headers
+      run: |
+        mkdir -p "$THEOS/include"
+        cp -R build-dependencies/xpc-headers/ios/xpc_service/headers/xpc \
+          "$THEOS/include/"
+
     - name: Checkout libSandy
       uses: actions/checkout@v4
       with:
