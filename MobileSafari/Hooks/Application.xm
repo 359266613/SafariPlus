@@ -311,7 +311,10 @@
 	%orig;
 }
 
+%end
+
 %group iOS10Up
+%hook Application
 
 - (BOOL)canAddNewTabForPrivateBrowsing:(BOOL)privateBrowsing
 {
@@ -325,7 +328,10 @@
 
 %end
 
+%end
+
 %group iOS9Up
+%hook Application
 
 - (BOOL)application:(UIApplication*)application didFinishLaunchingWithOptions:(NSDictionary*)launchOptions
 {
@@ -340,7 +346,10 @@
 
 %end
 
+%end
+
 %group iOS8
+%hook Application
 
 - (void)applicationOpenURL:(NSURL*)URL
 {
