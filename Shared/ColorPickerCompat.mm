@@ -1,9 +1,13 @@
+#import "ColorPickerCompat.h"
+
+#ifndef NO_LIBCOLORPICKER
 #include <dlfcn.h>
 #import <CSColorPicker/CSColorPicker.h>
+#endif
 
 BOOL useAlderis(void)
 {
-#if defined(__arm64__) && __arm64__
+#if !defined(NO_LIBCOLORPICKER) && defined(__arm64__) && __arm64__
     static BOOL alderis;
     static dispatch_once_t onceToken;
     dispatch_once (&onceToken, ^{
@@ -17,6 +21,7 @@ BOOL useAlderis(void)
 
 void loadColorPicker(void)
 {
+#ifndef NO_LIBCOLORPICKER
     if(useAlderis())
     {
 #ifdef PREFERENCES
@@ -30,11 +35,14 @@ void loadColorPicker(void)
     {
         dlopen("/usr/lib/libCSColorPicker.dylib", RTLD_NOW);
     }
+#endif
 }
 
 #ifndef PREFERENCES
 
+#ifndef NO_LIBCOLORPICKER
 @import Alderis;
+#endif
 
 UIColor* colorFromHex(NSString* hex)
 {
