@@ -6,6 +6,8 @@ SafariPlus_USE_MODULES = 0
 SafariPlus_CFLAGS = -fobjc-arc -I$(INCLUDES) -Wno-deprecated-declarations -Wno-unguarded-availability-new -Wno-unused-variable
 # The .xmi file imports this itself before preprocessing; never force it twice.
 SafariPlus_CFLAGS += $(if $(filter Undirector.xmi,$<),,-include ../Prefix.pch)
+# Logos emits __unused after the .xmi preprocessor has discarded header macros.
+Undirector.xmi_CFLAGS += '-D__unused=__attribute__((__unused__))'
 SafariPlus_FILES = Util.xm Init.xm Undirector.xmi
 SafariPlus_FILES += $(wildcard Hooks/*.xm Classes/*.mm Classes/*.xm ../Shared/*.mm)
 SafariPlus_EXTRA_FRAMEWORKS += CydiaSubstrate
