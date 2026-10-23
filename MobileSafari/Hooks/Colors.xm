@@ -224,7 +224,10 @@
 	}
 }
 
+%end
+
 %group iOS9Up
+%hook NavigationBar
 
 //URL Text Color
 - (UIColor*)_URLTextColor
@@ -263,6 +266,9 @@
 }
 
 %end
+%end
+
+%hook NavigationBar
 
 //Text color of search placeholder text (on blank tab), needs to be less visible
 - (UIColor*)_placeholderColor
@@ -282,7 +288,10 @@
 	return %orig;
 }
 
+%end
+
 %group iOS8
+%hook NavigationBar
 
 //URL Text Color
 - (void)_updateTextColor
@@ -334,7 +343,10 @@
 
 %end
 
+%end
+
 %group iOS10Up
+%hook NavigationBar
 
 //Lock Icon Color
 - (UIColor*)_tintForLockImage:(BOOL)arg1
@@ -356,7 +368,10 @@
 
 %end
 
+%end
+
 %group iOS9Down
+%hook NavigationBar
 
 //Lock Icon Color
 - (UIImage*)_lockImageUsingMiniatureVersion:(BOOL)miniatureVersion
@@ -376,9 +391,8 @@
 %end
 %end
 
-%hook TabThumbnailView
-
 %group iOS11Up
+%hook TabThumbnailView
 
 //Tab Title Color
 - (UIColor*)titleColor
@@ -418,7 +432,10 @@
 
 %end
 
+%end
+
 %group iOS10Down
+%hook TabThumbnailView
 
 - (void)setTitleColor:(UIColor*)titleColor
 {
@@ -838,7 +855,10 @@
 
 //Bottom Bar Background Color
 
+%end
+
 %group iOS10Up
+%hook BrowserToolbar
 
 - (void)setTintStyle:(NSUInteger)style
 {
@@ -858,7 +878,10 @@
 
 %end
 
+%end
+
 %group iOS9Down
+%hook BrowserToolbar
 
 - (void)setHasDarkBackground:(BOOL)darkBackground
 {
