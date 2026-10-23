@@ -346,7 +346,10 @@
 	return %orig;
 }
 
+%end
+
 %group iOS11Down
+%hook BrowserController
 
 //Fully disable private mode
 - (BOOL)isPrivateBrowsingAvailable //iOS <=11.4.1
@@ -356,7 +359,10 @@
 
 %end
 
+%end
+
 %group iOS13Down
+%hook BrowserController
 
 //iOS 8,10.3-13.7 (causes status bar flickering on iOS <=10.2, on iOS 8 we use it anyways cause it's the only thing that works on there)
 - (BOOL)fullScreenInPortrait //DIRECT IN IOS 14 (ivar still exists)
@@ -391,9 +397,12 @@
 
 %end
 
+%end
+
 //iOS 14
 
 %group iOS14Up
+%hook BrowserController
 
 - (void)handleNavigationIntent:(_SFNavigationIntent*)intent completion:(id)arg2
 {
@@ -440,6 +449,10 @@
 
 %end
 
+
+%end
+
+%hook BrowserController
 
 //iOS >=13
 - (BOOL)dynamicBarAnimator:(id)arg1 canTransitionToState:(NSInteger)state byDraggingWithOffset:(CGFloat)arg3
@@ -550,7 +563,10 @@
 	}
 }
 
+%end
+
 %group iOS9_to_12_4_9
+%hook BrowserController
 
 //Auto switch mode on external URL opened
 - (NSURL*)handleExternalURL:(NSURL*)URL
@@ -565,7 +581,10 @@
 
 %end
 
+%end
+
 %group iOS9Up
+%hook BrowserController
 
 - (void)setUpWithURL:(id)arg1 launchOptions:(id)arg2
 {
@@ -584,7 +603,10 @@
 
 %end
 
+%end
+
 %group iOS11_3to12_1_4
+%hook BrowserController
 
 - (void)_updateTabExposeAlertController
 {
@@ -598,7 +620,10 @@
 
 %end
 
+%end
+
 %group iOS13Up
+%hook BrowserController
 
 - (void)handleNavigationIntent:(_SFNavigationIntent*)intent
 {
@@ -648,7 +673,10 @@
 
 %end
 
+%end
+
 %group iOS11to12_4_3
+%hook BrowserController
 
 - (void)_setPrivateBrowsingEnabled:(BOOL)arg1 showModalAuthentication:(BOOL)arg2 completion:(id)arg3
 {
@@ -688,7 +716,10 @@
 
 %end
 
+%end
+
 %group iOS10to11_2_6
+%hook BrowserController
 
 - (void)updateTabExposePopoverActions
 {
@@ -702,7 +733,10 @@
 
 %end
 
+%end
+
 %group iOS10Down
+%hook BrowserController
 
 - (void)togglePrivateBrowsing
 {
@@ -773,7 +807,10 @@
 
 %end
 
+%end
+
 %group iOS11_3_to_12
+%hook BrowserController
 
 - (void)updateButtons
 {
@@ -798,7 +835,10 @@
 
 %end
 
+%end
+
 %group iOS12Up
+%hook BrowserController
 
 - (void)_updateButtonsAnimatingTabBar:(BOOL)arg1
 {
