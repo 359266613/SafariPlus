@@ -382,7 +382,10 @@ BOOL isCallRelatedToTabSwipes()
 	return NO;
 }
 
+%end
+
 %group iOS12_1_4Down
+%hook TabController
 
 - (void)_updateTiltedTabViewItemsWithTransition:(NSInteger)transition
 {
@@ -467,7 +470,10 @@ BOOL isCallRelatedToTabSwipes()
 
 %end
 
+%end
+
 %group iOS12_2Up
+%hook TabController
 
 - (BOOL)tabCollectionView:(id)collectionView canCloseItem:(id<TabCollectionItem>)item
 {
@@ -493,6 +499,10 @@ BOOL isCallRelatedToTabSwipes()
 }
 
 %end
+
+%end
+
+%hook TabController
 
 %new
 - (void)toggleLockedStateForItem:(id<TabCollectionItem>)item
@@ -539,7 +549,10 @@ BOOL isCallRelatedToTabSwipes()
 	setLockStates();
 }
 
+%end
+
 %group iOS9Down
+%hook TabController
 
 - (NSUInteger)maximumTabDocumentCount
 {
@@ -553,7 +566,10 @@ BOOL isCallRelatedToTabSwipes()
 
 %end
 
+%end
+
 %group iOS10Up
+%hook TabController
 
 //TODO: no longer exists in iOS 12.2
 //now - (void)closeAllOpenTabsAnimated:(_Bool)arg1 temporarily:(_Bool)arg2;
@@ -587,7 +603,10 @@ BOOL isCallRelatedToTabSwipes()
 
 %end
 
+%end
+
 %group iOS11Up
+%hook TabController
 
 - (void)_closeTabDocuments:(NSArray<TabDocument*>*)documents animated:(BOOL)animated temporarily:(BOOL)temporarily allowAddingToRecentlyClosedTabs:(BOOL)allowAddingToRecentlyClosedTabs keepWebViewAlive:(BOOL)keepWebViewAlive
 {
@@ -611,7 +630,10 @@ BOOL isCallRelatedToTabSwipes()
 
 %end
 
+%end
+
 %group iOS10Down
+%hook TabController
 
 - (void)_closeTabDocument:(TabDocument*)document animated:(BOOL)animated temporarily:(BOOL)temporarily allowAddingToRecentlyClosedTabs:(BOOL)allowAddingToRecentlyClosedTabs keepWebViewAlive:(BOOL)keepWebViewAlive
 {
@@ -654,7 +676,10 @@ BOOL isCallRelatedToTabSwipes()
 
 %end
 
+%end
+
 %group iOS9Up
+%hook TabController
 
 - (void)setActiveTabDocument:(TabDocument*)document animated:(BOOL)arg2 deferActivation:(BOOL)arg3
 {
@@ -689,7 +714,10 @@ BOOL isCallRelatedToTabSwipes()
 
 %end
 
+%end
+
 %group iOS8
+%hook TabController
 
 - (void)setActiveTabDocument:(TabDocument*)document animated:(BOOL)arg2
 {

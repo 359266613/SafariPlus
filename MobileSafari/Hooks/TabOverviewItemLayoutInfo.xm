@@ -27,9 +27,8 @@
 #import "../Classes/SPPreferenceManager.h"
 #import "../Defines.h"
 
-%hook TabOverviewItemLayoutInfo
-
 %group iOS10Up
+%hook TabOverviewItemLayoutInfo
 
 - (void)_clearViews
 {

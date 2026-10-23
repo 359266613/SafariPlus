@@ -27,9 +27,8 @@
 #import "../Classes/SPPreferenceManager.h"
 #import "../Defines.h"
 
-%hook TiltedTabItemLayoutInfo
-
 %group iOS10Up
+%hook TiltedTabItemLayoutInfo
 
 - (void)tearDownThumbnailView
 {

@@ -285,7 +285,10 @@
 	%orig;
 }
 
+%end
+
 %group iOS9Down
+%hook TabOverview
 
 - (void)removeViewsForItem:(TabOverviewItem*)item
 {

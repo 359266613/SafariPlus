@@ -46,7 +46,10 @@
 	}
 }
 
+%end
+
 %group iOS14Up
+%hook WKFileUploadPanel
 
 - (UIContextMenuConfiguration *)contextMenuInteraction:(UIContextMenuInteraction *)interaction configurationForMenuAtLocation:(CGPoint)location
 {
@@ -82,7 +85,10 @@
 
 %end
 
+%end
+
 %group iOS13Down
+%hook WKFileUploadPanel
 
 //Add button to document menu
 - (void)_showDocumentPickerMenu
@@ -107,7 +113,10 @@
 
 %end
 
+%end
+
 %group iOS9Up
+%hook WKFileUploadPanel
 
 //Dismiss file picker and start upload or cancel
 %new
@@ -126,7 +135,10 @@
 
 %end
 
+%end
+
 %group iOS8
+%hook WKFileUploadPanel
 
 - (void)_showPhotoPickerWithSourceType:(int)arg1
 {

@@ -182,7 +182,10 @@ CGRect calculateLockButtonHitRect(UIScrollView* scrollView, TabThumbnailView* co
 	%orig;
 }
 
+%end
+
 %group iOS9Down
+%hook TiltedTabView
 
 - (void)_updateItemsInvolvedInAnimation
 {

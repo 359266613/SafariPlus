@@ -754,7 +754,10 @@ typedef void (^UIActionHandler)(__kindof UIAction *action);
 }
 
 //Force HTTPS + Always open in new tab option
+%end
+
 %group iOS12_1_4Down
+%hook TabDocument
 
 - (void)webView:(WKWebView *)webView
 	decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
@@ -780,6 +783,10 @@ typedef void (^UIActionHandler)(__kindof UIAction *action);
 }
 
 %end
+
+%end
+
+%hook TabDocument
 
 //Present download alert if clicked link is a downloadable file
 - (void)webView:(WKWebView *)webView
@@ -835,7 +842,10 @@ typedef void (^UIActionHandler)(__kindof UIAction *action);
 	}
 }
 
+%end
+
 %group iOS10Up
+%hook TabDocument
 
 //Suppress mailTo alert
 - (void)dialogController:(_SFDialogController*)dialogController willPresentDialog:(_SFDialog*)dialog
@@ -868,7 +878,10 @@ typedef void (^UIActionHandler)(__kindof UIAction *action);
 
 %end
 
+%end
+
 %group iOS13Up
+%hook TabDocument
 
 - (void)webView:(id)arg1 decidePolicyForNavigationAction:(id)navigationAction preferences:(id)arg3 decisionHandler:(void (^)(WKNavigationActionPolicy, _WKWebsitePolicies*))decisionHandler
 {
@@ -901,7 +914,10 @@ typedef void (^UIActionHandler)(__kindof UIAction *action);
 
 %end
 
+%end
+
 %group iOS12_2_to_13_3_1
+%hook TabDocument
 
 - (NSMutableArray*)_actionsForElement:(_WKActivatedElementInfo*)element orFallbackURL:(id)arg2 defaultActions:(id)arg3 previewViewController:(id)arg4
 {
@@ -921,7 +937,10 @@ typedef void (^UIActionHandler)(__kindof UIAction *action);
 
 %end
 
+%end
+
 %group iOS12_2Up
+%hook TabDocument
 
 - (void)_webView:(WKWebView *)webView
 	decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction
@@ -957,7 +976,10 @@ typedef void (^UIActionHandler)(__kindof UIAction *action);
 
 %end
 
+%end
+
 %group iOS9to12_1_4
+%hook TabDocument
 
 //Extra 'Open in new Tab' option + 'Open in opposite Mode' option + 'Download to' option
 - (NSMutableArray*)_actionsForElement:(_WKActivatedElementInfo*)element
@@ -979,7 +1001,10 @@ typedef void (^UIActionHandler)(__kindof UIAction *action);
 
 %end
 
+%end
+
 %group iOS9Up
+%hook TabDocument
 
 - (void)_webViewDidEnterFullscreen:(WKWebView*)webView
 {
@@ -1000,7 +1025,10 @@ typedef void (^UIActionHandler)(__kindof UIAction *action);
 
 %end
 
+%end
+
 %group iOS8
+%hook TabDocument
 
 %new
 - (void)_webViewDidEnterFullscreen:(WKWebView*)webView
@@ -1038,6 +1066,10 @@ typedef void (^UIActionHandler)(__kindof UIAction *action);
 }
 
 %end
+
+%end
+
+%hook TabDocument
 
 - (instancetype)_initWithTitle:(id)arg1 URL:(id)arg2 UUID:(id)arg3 privateBrowsingEnabled:(BOOL)arg4 controlledByAutomation:(BOOL)arg5 bookmark:(id)arg6 browserController:(id)arg7 createDocumentView:(id)arg8
 {

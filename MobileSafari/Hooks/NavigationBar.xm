@@ -27,7 +27,10 @@
 
 %property (nonatomic,retain) BrowserToolbar *sp_toolbar;
 
+%end
+
 %group iOS12_2to12_4
+%hook NavigationBar
 - (BrowserToolbar*)toolbarPlacedOnTop
 {
 	BrowserToolbar* toolbar = %orig;
@@ -38,7 +41,10 @@
 }
 %end
 
+%end
+
 %group iOS14Up
+%hook NavigationBar
 - (void)_updateAvailabilityButtonVisibilityForType:(long long)arg1 animated:(BOOL)arg2 showAvailabilityText:(BOOL)arg3 adjustURLLabels:(BOOL)arg4
 {
 	%orig;
@@ -50,7 +56,10 @@
 }
 %end
 
+%end
+
 %group iOS13_to_13_7
+%hook NavigationBar
 - (void)_updateAccessoryButtonsVisibility
 {
 	%orig;
@@ -62,7 +71,10 @@
 }
 %end
 
+%end
+
 %group iOS11_3Up
+%hook NavigationBar
 - (void)_updateNavigationBarTrailingButtonsVisibility
 {
 	%orig;
@@ -74,7 +86,10 @@
 }
 %end
 
+%end
+
 %group iOS9Up
+%hook NavigationBar
 - (void)_updateNavigationBarRightButtonsVisibility
 {
 	%orig;
@@ -86,7 +101,10 @@
 }
 %end
 
+%end
+
 %group iOS8
+%hook NavigationBar
 - (void)_updateStopReloadButtonVisibility
 {
 	%orig;

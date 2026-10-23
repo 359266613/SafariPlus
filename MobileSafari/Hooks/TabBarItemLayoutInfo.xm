@@ -68,7 +68,10 @@
 	}
 }
 
+%end
+
 %group iOS9_to_11
+%hook TabBarItemLayoutInfo
 
 - (TabBarItemView*)_reusableViewWithTitleAnchorEdge:(NSInteger)anchorEdge
 {
@@ -88,7 +91,10 @@
 
 %end
 
+%end
+
 %group iOS12Up
+%hook TabBarItemLayoutInfo
 
 - (TabBarItemView*)_reusableView
 {
@@ -107,6 +113,10 @@
 }
 
 %end
+
+%end
+
+%hook TabBarItemLayoutInfo
 
 %new
 - (void)lockButtonTapped:(UIButton*)sender
