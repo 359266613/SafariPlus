@@ -16,10 +16,11 @@ env:
   THEOS: ${{ github.workspace }}/theos-roothide
   IOS_SDK_VERSION: "16.5"
   WEBKIT_ARCHIVE_URL: ${{ vars.WEBKIT_ARCHIVE_URL }}
+  BUILD_WEBCONTENT: "0"
 
 jobs:
   build:
-    name: Build (${{ matrix.build_variant }})
+    name: Build (${{ matrix.build_variant }}, without WebContent)
     runs-on: macos-14
     outputs:
       package_version: ${{ steps.bump.outputs.package_version }}
@@ -54,7 +55,7 @@ jobs:
       run: |
         VERSION_PREFIX="5.2.0"
         VERSION_BASE=0    
-        VERSION="${VERSION_PREFIX}-$((VERSION_BASE + ${{ github.run_number }}))"
+        VERSION="${VERSION_PREFIX}-$((VERSION_BASE + ${{ github.run_number }})).nowebcontent"
         echo "Using version: $VERSION"
         sed -i '' "s/^Version: .*/Version: ${VERSION}/" control
         echo "package_version=${VERSION}" >> $GITHUB_OUTPUT
@@ -90,6 +91,28 @@ jobs:
         brew install ldid dpkg xz
         echo "$(brew --prefix)/bin" >> "$GITHUB_PATH"
 
+    - name: Checkout libSandy
+      uses: actions/checkout@v4
+      with:
+        repository: opa334/libSandy
+        ref: 9c77311172485e92bf0c439391be5a9565c877e4
+        path: build-dependencies/libSandy
+
+    - name: Build and install libSandy for linking
+      env:
+        PACKAGE_SCHEME: ${{ matrix.package_scheme }}
+      run: |
+        set -euo pipefail
+        make -C build-dependencies/libSandy \
+          ONLY_LIBRARY=1 FINALPACKAGE=1 \
+          THEOS_PACKAGE_SCHEME="$PACKAGE_SCHEME" \
+          TARGET="iphone:clang:${IOS_SDK_VERSION}:15.0" \
+          ARCHS="arm64 arm64e"
+        mkdir -p "$THEOS/include" "$THEOS/lib/iphone/$PACKAGE_SCHEME"
+        cp build-dependencies/libSandy/libSandy.h "$THEOS/include/"
+        cp build-dependencies/libSandy/.theos/obj/libsandy.dylib \
+          "$THEOS/lib/iphone/$PACKAGE_SCHEME/"
+
     - name: Build Package
       run: |
         export THEOS="$GITHUB_WORKSPACE/theos-roothide"
@@ -101,10 +124,39 @@ jobs:
         echo "=== .deb files ==="
         find . -name "*.deb" -type f 2>/dev/null
 
+    - name: Verify packages
+      run: |
+        set -euo pipefail
+        shopt -s nullglob
+        PACKAGES=(packages/*.deb)
+        if [ "${#PACKAGES[@]}" -eq 0 ]; then
+          echo "No .deb packages were produced" >&2
+          exit 1
+        fi
+        for PACKAGE in "${PACKAGES[@]}"; do
+          dpkg-deb --info "$PACKAGE"
+          CONTENTS="$(dpkg-deb --contents "$PACKAGE")"
+          printf '%s\n' "$CONTENTS"
+          for TWEAK in SafariPlus SafariPlusSB; do
+            if ! grep -Fq "/${TWEAK}.dylib" <<< "$CONTENTS"; then
+              echo "Missing tweak binary: $TWEAK" >&2
+              exit 1
+            fi
+          done
+          if ! grep -Fq "/SafariPlusPrefs.bundle/" <<< "$CONTENTS"; then
+            echo "Missing preferences bundle" >&2
+            exit 1
+          fi
+          if grep -Fq "/SafariPlusWC.dylib" <<< "$CONTENTS"; then
+            echo "Unexpected WebContent binary in the reduced package" >&2
+            exit 1
+          fi
+        done
+
     - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: packages-${{ matrix.build_variant }}
+        name: packages-${{ matrix.build_variant }}-no-webcontent
         path: |
           ./packages/*.deb
         if-no-files-found: error
@@ -115,6 +167,6 @@ jobs:
       with:
         token: ${{ github.token }}
         tag_name: v${{ steps.bump.outputs.package_version }}
-        name: Safari Plus v${{ steps.bump.outputs.package_version }}
+        name: Safari Plus v${{ steps.bump.outputs.package_version }} (without WebContent)
         files: |
           ./packages/*.deb
