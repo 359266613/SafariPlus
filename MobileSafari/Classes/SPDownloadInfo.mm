@@ -25,7 +25,12 @@
 #import "SPFileManager.h"
 #import "SPDownloadManager.h"
 
+#if __has_include(<CoreServices/UTCoreTypes.h>)
+#import <CoreServices/UTCoreTypes.h>
+#import <CoreServices/UTType.h>
+#else
 #import <MobileCoreServices/MobileCoreServices.h>
+#endif
 
 @implementation SPDownloadInfo
 

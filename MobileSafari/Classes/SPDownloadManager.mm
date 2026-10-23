@@ -38,7 +38,12 @@
 
 #import "Extensions.h"
 
+#if __has_include(<CoreServices/UTCoreTypes.h>)
+#import <CoreServices/UTCoreTypes.h>
+#import <CoreServices/UTType.h>
+#else
 #import <MobileCoreServices/MobileCoreServices.h>
+#endif
 #import <WebKit/WKWebView.h>
 #import <UserNotifications/UserNotifications.h>
 #import <AVFoundation/AVFoundation.h>

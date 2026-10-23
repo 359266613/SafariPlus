@@ -33,7 +33,12 @@
 
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVPlayerViewController.h>
+#if __has_include(<CoreServices/UTCoreTypes.h>)
+#import <CoreServices/UTCoreTypes.h>
+#import <CoreServices/UTType.h>
+#else
 #import <MobileCoreServices/MobileCoreServices.h>
+#endif
 
 @implementation SPDownloadBrowserTableViewController
 

@@ -31,7 +31,12 @@
 NSFileManager* fileManager = [NSFileManager defaultManager];
 #endif
 
+#if __has_include(<CoreServices/UTCoreTypes.h>)
+#import <CoreServices/UTCoreTypes.h>
+#import <CoreServices/UTType.h>
+#else
 #import <MobileCoreServices/MobileCoreServices.h>
+#endif
 #import <QuickLook/QuickLook.h>
 
 @implementation SPFile

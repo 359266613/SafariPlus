@@ -26,7 +26,7 @@ SafariPlus_CFLAGS += -D SIMJECT=1 -D CUR_DIR=$(dir_string)
 endif
 
 SafariPlus_LIBRARIES += objc sandy
-SafariPlus_FRAMEWORKS = UIKit CoreFoundation Foundation AVKit
+SafariPlus_FRAMEWORKS = UIKit CoreFoundation Foundation AVKit MobileCoreServices
 SafariPlus_PRIVATE_FRAMEWORKS = MobileIcons
 
 include $(THEOS_MAKE_PATH)/tweak.mk
