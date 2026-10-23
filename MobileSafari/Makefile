@@ -3,7 +3,9 @@ include $(THEOS)/makefiles/common.mk
 TWEAK_NAME = SafariPlus
 # Keep .xmi preprocessing textual instead of emitting Clang module imports.
 SafariPlus_USE_MODULES = 0
-SafariPlus_CFLAGS = -fobjc-arc -I$(INCLUDES) -include ../Prefix.pch -Wno-deprecated-declarations -Wno-unguarded-availability-new -Wno-unused-variable
+SafariPlus_CFLAGS = -fobjc-arc -I$(INCLUDES) -Wno-deprecated-declarations -Wno-unguarded-availability-new -Wno-unused-variable
+# The .xmi file imports this itself before preprocessing; never force it twice.
+SafariPlus_CFLAGS += $(if $(filter Undirector.xmi,$<),,-include ../Prefix.pch)
 SafariPlus_FILES = Util.xm Init.xm Undirector.xmi
 SafariPlus_FILES += $(wildcard Hooks/*.xm Classes/*.mm Classes/*.xm ../Shared/*.mm)
 SafariPlus_EXTRA_FRAMEWORKS += CydiaSubstrate
