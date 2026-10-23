@@ -127,6 +127,13 @@ jobs:
         cp build-dependencies/libSandy/.theos/obj/libsandy.dylib \
           "$THEOS/lib/iphone/$PACKAGE_SCHEME/"
 
+    - name: Use textual libhooker headers
+      run: |
+        # The dynamic libundirect header only needs libhooker's declarations.
+        sed -i '' -E \
+          's/^[[:space:]]*#pragma[[:space:]]+clang[[:space:]]+module[[:space:]]+import[[:space:]]+libhooker[[:space:]]*$/#include <libhooker\/libhooker.h>/' \
+          "$THEOS/vendor/include/libundirect/libundirect_dynamic.h"
+
     - name: Build Package
       run: |
         export THEOS="$GITHUB_WORKSPACE/theos-roothide"
