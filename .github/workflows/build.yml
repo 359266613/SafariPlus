@@ -14,6 +14,7 @@ env:
   HOMEBREW_NO_AUTO_UPDATE: 1
   HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK: 1
   THEOS: ${{ github.workspace }}/theos-roothide
+  IOS_SDK_VERSION: "16.5"
 
 jobs:
   build:
@@ -64,23 +65,22 @@ jobs:
         path: theos-roothide
         submodules: recursive
 
-    - name: Install iOS SDK (iPhoneOS16.5)
+    - name: Install iOS SDK
       run: |
         set -euo pipefail
         mkdir -p "$THEOS/sdks"
-        if [ -d "$THEOS/sdks/iPhoneOS16.5.sdk" ]; then
-          echo "iPhoneOS16.5.sdk already present"
+        SDK_NAME="iPhoneOS${IOS_SDK_VERSION}.sdk"
+        if [ -d "$THEOS/sdks/$SDK_NAME" ]; then
+          echo "$SDK_NAME already present"
           exit 0
         fi
-        # 不用 theos/bin/install-sdk：它会从 GitHub 拉压缩包，被限流／重定向时
-        # 会存下 HTML 错误页，tar 直接报 "Unrecognized archive format"。
-        # 直接从 theos/sdks 稀疏检出这个 SDK，确定性强且快得多。
-        # 必须装到 sdks/iPhoneOS16.5.sdk：notifyislandprefs 的 LDFLAGS 指向
-        # $(THEOS)/sdks/iPhoneOS16.5.sdk/System/Library/PrivateFrameworks（Preferences）。
-        rm -rf /tmp/theos-sdks
-        git clone --depth 1 --filter=blob:none --sparse https://github.com/theos/sdks.git /tmp/theos-sdks
-        git -C /tmp/theos-sdks sparse-checkout set iPhoneOS16.5.sdk
-        cp -R /tmp/theos-sdks/iPhoneOS16.5.sdk "$THEOS/sdks/"
+        # Install the patched SDK used by build.sh, including private frameworks.
+        SDK_CHECKOUT="$(mktemp -d)"
+        trap 'rm -rf "$SDK_CHECKOUT"' EXIT
+        git clone --depth 1 --filter=blob:none --sparse https://github.com/theos/sdks.git "$SDK_CHECKOUT"
+        git -C "$SDK_CHECKOUT" sparse-checkout set "$SDK_NAME"
+        cp -R "$SDK_CHECKOUT/$SDK_NAME" "$THEOS/sdks/"
+        test -f "$THEOS/sdks/$SDK_NAME/SDKSettings.plist"
         ls -1 "$THEOS/sdks"
 
     - name: Install Theos dependencies
@@ -96,7 +96,7 @@ jobs:
         if [ -n "$SCHEME" ]; then
           export THEOS_PACKAGE_SCHEME="$SCHEME"
         fi
-        make package
+        bash build.sh
         echo "=== .deb files ==="
         find . -name "*.deb" -type f 2>/dev/null
 

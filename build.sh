@@ -1,17 +1,37 @@
 #!/bin/bash
-# 运行前确保执行: chmod +x build.sh
+set -euo pipefail
 
+cd "$(dirname "${BASH_SOURCE[0]}")"
+: "${THEOS:?Set THEOS to your Theos installation directory}"
 
-echo ">>> 正在清理历史残留文件..."
-make clean
+SDK_VERSION="${IOS_SDK_VERSION:-16.5}"
+SCHEME="${THEOS_PACKAGE_SCHEME:-rootless}"
+if [[ "$SCHEME" != "rootless" && "$SCHEME" != "roothide" ]]; then
+  echo "Unsupported package scheme: $SCHEME" >&2
+  exit 1
+fi
+if [[ ! -d "$THEOS/sdks/iPhoneOS${SDK_VERSION}.sdk" ]]; then
+  echo "Missing SDK: $THEOS/sdks/iPhoneOS${SDK_VERSION}.sdk" >&2
+  exit 1
+fi
 
-#echo ">>> 正在编译 经典有根越狱版 (Rootful) 架构..."
-#make package
+# Command-line variables override the upstream Makefile and reach subprojects.
+MAKE_ARGS=(
+  "THEOS_PACKAGE_SCHEME=$SCHEME"
+  "ROOTLESS=1"
+  "TARGET=iphone:clang:${SDK_VERSION}:15.0"
+  "ARCHS=arm64 arm64e"
+)
 
-echo ">>> 正在编译 现代主流无根版 (Rootless) 架构..."
-make package THEOS_PACKAGE_SCHEME=rootless
+echo ">>> Cleaning..."
+make clean "${MAKE_ARGS[@]}"
 
-#echo ">>> 正在编译 隐藏越狱无根版 (Roothide) 架构...."
-#make package THEOS_PACKAGE_SCHEME=roothide
+if [[ ! -f .WebKit/usr/local/include/WebCore/HTMLMediaElement.h ||
+      ! -f .WebKit/usr/local/include/wtf/RefPtr.h ]]; then
+  echo ">>> Preparing patched WebKit headers..."
+  bash -e get_webkit.sh
+fi
 
-echo ">>> 🎉 编译结束！所有工作执行完成。"
+echo ">>> Building $SCHEME..."
+make package "${MAKE_ARGS[@]}"
+echo ">>> Build complete."
