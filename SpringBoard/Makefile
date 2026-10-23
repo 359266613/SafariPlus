@@ -2,7 +2,7 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = SafariPlusSB
 SafariPlusSB_CFLAGS = -fobjc-arc -include ../Prefix.pch -D SPRINGBOARD=1
-SafariPlusSB_FRAMEWORKS = Security MobileCoreServices
+SafariPlusSB_FRAMEWORKS = Security MobileCoreServices Foundation CoreFoundation UIKit QuickLook
 SafariPlusSB_FILES += $(wildcard Hooks/*.xm)
 SafariPlusSB_FILES += ../Shared/SPFile.mm ../Shared/NSFileManager+DirectorySize.mm
 

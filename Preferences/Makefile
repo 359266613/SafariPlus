@@ -5,7 +5,7 @@ SafariPlusPrefs_CFLAGS = -fobjc-arc -I$(INCLUDES) -include ../Prefix.pch -D PREF
 SafariPlusPrefs_FILES = ../MobileSafari/Classes/SPFileManager.mm ../MobileSafari/Classes/SPFileBrowserTableViewController.mm ../MobileSafari/Classes/SPFileBrowserNavigationController.mm ../MobileSafari/Classes/SPCellIconLabelView.mm ../MobileSafari/Classes/SPFileTableViewCell.mm ../MobileSafari/Classes/SPLocalizationManager.mm
 SafariPlusPrefs_FILES += $(wildcard *.mm ../Shared/*.mm)
 SafariPlusPrefs_INSTALL_PATH = /Library/PreferenceBundles
-SafariPlusPrefs_FRAMEWORKS = UIKit
+SafariPlusPrefs_FRAMEWORKS = UIKit Foundation CoreFoundation CoreGraphics CoreImage LocalAuthentication MobileCoreServices QuickLook
 
 ifeq ($(NO_LIBCOLORPICKER),1)
 SafariPlusPrefs_CFLAGS += -D NO_LIBCOLORPICKER=1

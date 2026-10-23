@@ -27,6 +27,7 @@ endif
 
 SafariPlus_LIBRARIES += objc sandy
 SafariPlus_FRAMEWORKS = UIKit CoreFoundation Foundation AVKit MobileCoreServices
+SafariPlus_FRAMEWORKS += AVFoundation CoreGraphics CoreImage CoreMedia LocalAuthentication QuickLook SystemConfiguration UserNotifications WebKit
 SafariPlus_PRIVATE_FRAMEWORKS = MobileIcons
 
 include $(THEOS_MAKE_PATH)/tweak.mk
